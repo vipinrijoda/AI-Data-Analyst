@@ -156,3 +156,13 @@ echo "- Professional PDF reports" >> README.md
 - Automatic visualization
 - ML model training
 - Professional PDF reports
+
+## Project Structure
+```
+data_analysis_agent/
+├── app.py              # Streamlit dashboard
+├── agents/             # Multi-agent system
+├── utils/              # Helper functions
+├── prompts/            # Prompt templates
+└── requirements.txt    # Dependencies
+```
