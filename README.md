@@ -141,3 +141,11 @@ agentic-data-analyst/
   Add a regression test in `tests/` that asserts key phrases/numbers from `eda_results` appear in
   generated insights for stronger evaluation.
 - **What happens when an agent fails?** See "Error handling" above.
+# Add new content to README
+echo "" >> README.md
+echo "## Features" >> README.md
+echo "- Multi-agent architecture" >> README.md
+echo "- Natural language queries" >> README.md
+echo "- Automatic visualization" >> README.md
+echo "- ML model training" >> README.md
+echo "- Professional PDF reports" >> README.md
