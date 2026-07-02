@@ -149,3 +149,10 @@ echo "- Natural language queries" >> README.md
 echo "- Automatic visualization" >> README.md
 echo "- ML model training" >> README.md
 echo "- Professional PDF reports" >> README.md
+
+## Features
+- Multi-agent architecture
+- Natural language queries
+- Automatic visualization
+- ML model training
+- Professional PDF reports
