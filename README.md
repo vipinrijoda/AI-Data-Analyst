@@ -166,3 +166,11 @@ data_analysis_agent/
 ├── prompts/            # Prompt templates
 └── requirements.txt    # Dependencies
 ```
+
+## Quick Start
+
+```bash
+pip install -r requirements.txt
+cp .env.example .env
+streamlit run app.py
+```
