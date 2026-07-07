@@ -179,3 +179,18 @@ streamlit run app.py
 ```
 User -> Streamlit -> Supervisor -> Agents -> LLM -> Results
 ```
+
+## Agents
+
+| Agent | Responsibility |
+|-------|---------------|
+| Supervisor | Orchestrates the pipeline |
+| Data Understanding | Business context |
+| Cleaning | Data quality fixes |
+| EDA | Exploratory analysis |
+| Visualization | Charts and plots |
+| Insight | Business recommendations |
+| ML | Model training |
+| SQL | Natural language queries |
+| Chat | Follow-up questions |
+| Report | PDF generation |
