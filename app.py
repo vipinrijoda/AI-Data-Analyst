@@ -356,3 +356,6 @@ with tabs[7]:
             file_name="data_analysis_report.pdf",
             mime="application/pdf",
         )
+
+# Agentic Data Analyst
+# Powered by Groq LLM and LangGraph
