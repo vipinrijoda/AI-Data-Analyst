@@ -194,3 +194,6 @@ User -> Streamlit -> Supervisor -> Agents -> LLM -> Results
 | SQL | Natural language queries |
 | Chat | Follow-up questions |
 | Report | PDF generation |
+
+## Error Handling
+Every agent is wrapped in try/except for graceful failure.
