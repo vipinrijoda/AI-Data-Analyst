@@ -197,3 +197,6 @@ User -> Streamlit -> Supervisor -> Agents -> LLM -> Results
 
 ## Error Handling
 Every agent is wrapped in try/except for graceful failure.
+
+## License
+MIT License - see LICENSE file
