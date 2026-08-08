@@ -7,8 +7,23 @@ OpenAI under the hood. Swap providers with the LLM_PROVIDER env var.
 """
 import os
 import json
+import streamlit as st
 
-PROVIDER = os.getenv("LLM_PROVIDER", "anthropic").lower()
+# ============================================
+# FIX: Read from st.secrets first, then .env
+# ============================================
+
+def get_env_or_secret(key: str, default: str = None) -> str:
+    """Get environment variable or Streamlit secret"""
+    try:
+        # For Streamlit Cloud
+        return st.secrets.get(key, os.getenv(key, default))
+    except (KeyError, AttributeError):
+        # For local development
+        return os.getenv(key, default)
+
+
+PROVIDER = get_env_or_secret("LLM_PROVIDER", "anthropic").lower()
 
 
 def call_llm(prompt: str, system: str = None, max_tokens: int = 1500, json_mode: bool = False) -> str:
@@ -36,7 +51,7 @@ def _call_anthropic(prompt, system, max_tokens, json_mode):
     import anthropic
 
     client = anthropic.Anthropic()
-    model = os.getenv("ANTHROPIC_MODEL", "claude-sonnet-4-5-20250929")
+    model = get_env_or_secret("ANTHROPIC_MODEL", "claude-sonnet-4-5-20250929")
 
     sys_prompt = system or ""
     if json_mode:
@@ -57,7 +72,7 @@ def _call_openai(prompt, system, max_tokens, json_mode):
     from openai import OpenAI
 
     client = OpenAI()
-    model = os.getenv("OPENAI_MODEL", "gpt-4o")
+    model = get_env_or_secret("OPENAI_MODEL", "gpt-4o")
 
     sys_prompt = system or "You are a helpful data analysis assistant."
     if json_mode:
@@ -77,16 +92,18 @@ def _call_openai(prompt, system, max_tokens, json_mode):
 
 
 def _call_groq(prompt, system, max_tokens, json_mode):
-    # Groq exposes an OpenAI-compatible /chat/completions endpoint, so we
-    # reuse the openai SDK and just point it at Groq's base URL.
+    # Grox exposes an OpenAI-compatible /chat/completions endpoint
     from openai import OpenAI
 
+    api_key = get_env_or_secret("GROQ_API_KEY")
+    if not api_key:
+        return "Error: GROQ_API_KEY not found. Please set it in .env or Streamlit secrets."
+
     client = OpenAI(
-        api_key=os.getenv("GROQ_API_KEY"),
+        api_key=api_key,
         base_url="https://api.groq.com/openai/v1",
     )
-    # e.g. "llama-3.3-70b-versatile", "llama-3.1-8b-instant", "mixtral-8x7b-32768"
-    model = os.getenv("GROQ_MODEL", "llama-3.3-70b-versatile")
+    model = get_env_or_secret("GROQ_MODEL", "llama-3.3-70b-versatile")
 
     sys_prompt = system or "You are a helpful data analysis assistant."
     if json_mode:
@@ -101,9 +118,6 @@ def _call_groq(prompt, system, max_tokens, json_mode):
             {"role": "user", "content": prompt},
         ],
     )
-    # Groq supports a native JSON mode on most current models; use it when
-    # available for more reliable parsing, but don't fail hard if a given
-    # model doesn't support it - fall back to prompt-based JSON enforcement.
     if json_mode:
         try:
             resp = client.chat.completions.create(response_format={"type": "json_object"}, **kwargs)
